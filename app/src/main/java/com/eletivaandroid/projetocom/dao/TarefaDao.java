@@ -30,7 +30,7 @@ public class TarefaDao {
             cv.put("titulo", tarefa.getTitulo());
             cv.put("fgFinalizada", "N");
 
-            writeIn.insert(DbHelper.TABELA_TAREFAS, null, cv);
+            writeIn.insert(DbHelper.TABELA_USUARIOS, null, cv);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
@@ -42,7 +42,7 @@ public class TarefaDao {
     public List<Tarefa> getListaTarefas(){
         List<Tarefa> listaTarefas = new ArrayList<>();
 
-        String sql = "SELECT * FROM " + DbHelper.TABELA_TAREFAS + " ORDER BY id DESC;";
+        String sql = "SELECT * FROM " + DbHelper.TABELA_USUARIOS + " ORDER BY id DESC;";
         Cursor cursor = readOn.rawQuery(sql, null);
 
         while(cursor.moveToNext()) {
@@ -63,7 +63,7 @@ public class TarefaDao {
 
             String[] args = { tarefa.getId().toString() };
 
-            writeIn.update(DbHelper.TABELA_TAREFAS, cv, "id = ?", args);
+            writeIn.update(DbHelper.TABELA_USUARIOS, cv, "id = ?", args);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
@@ -79,7 +79,7 @@ public class TarefaDao {
 
             String[] args = { tarefa.getId().toString() };
 
-            writeIn.update(DbHelper.TABELA_TAREFAS, cv, "id = ?", args);
+            writeIn.update(DbHelper.TABELA_USUARIOS, cv, "id = ?", args);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
@@ -93,7 +93,7 @@ public class TarefaDao {
         try {
             String[] args = { tarefa.getId().toString() };
 
-            writeIn.delete(DbHelper.TABELA_TAREFAS, "id = ?", args);
+            writeIn.delete(DbHelper.TABELA_USUARIOS, "id = ?", args);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
