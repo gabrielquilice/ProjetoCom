@@ -31,6 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 " rg CHAR(16) NOT NULL," +
                 " usuario TEXT NOT NULL," +
                 " senha TEXT NOT NULL," +
+                " conectado CHAR(1) NOT NULL," +
                 " ativo CHAR(1) NOT NULL); ";
 
         String sqlTableVoo = "CREATE TABLE IF NOT EXISTS " + TABELA_VOO +

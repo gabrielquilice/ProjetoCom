@@ -20,7 +20,7 @@ public class UsuarioDao {
         readOn = dbHelper.getReadableDatabase();
     }
 
-    public boolean salvar(Usuario usuario) {
+    public boolean cadastrar(Usuario usuario) {
 
         try {
             ContentValues cv = new ContentValues();
@@ -29,6 +29,7 @@ public class UsuarioDao {
             cv.put("rg", usuario.getRg());
             cv.put("usuario", usuario.getSenha().toUpperCase());
             cv.put("senha", usuario.getSenha().toUpperCase());
+            cv.put("conectado", "N");
             cv.put("ativo", "S");
 
             writeIn.insert(DbHelper.TABELA_USUARIO, null, cv);
@@ -60,6 +61,22 @@ public class UsuarioDao {
         return true;
     }
 
+    public boolean logout(int idUsuario){
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("conectado", "N");
+
+            String[] args = { String.valueOf(idUsuario) };
+
+            writeIn.update(DbHelper.TABELA_USUARIO, cv, "id_usuario = ?", args);
+        } catch (Exception e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean alterarStatus(int idUsuario, String ativo){
         try {
             ContentValues cv = new ContentValues();
@@ -79,9 +96,9 @@ public class UsuarioDao {
     public boolean loginUsuario(String usuario, String senha) {
         try {
 
-            String[] args = { usuario.toUpperCase(), senha.toUpperCase() };
+            String[] args = { usuario.toUpperCase(), senha.toUpperCase(), "N" };
 
-            String sql = "SELECT * FROM " + DbHelper.TABELA_USUARIO + " WHERE usuario = ? AND senha = ?";
+            String sql = "SELECT * FROM " + DbHelper.TABELA_USUARIO + " WHERE usuario = ? AND senha = ? AND conectado = ?";
 
             int isUsuario = readOn.rawQuery(sql, args).getCount();
 

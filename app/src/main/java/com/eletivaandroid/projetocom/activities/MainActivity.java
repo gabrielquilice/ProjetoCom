@@ -2,6 +2,7 @@ package com.eletivaandroid.projetocom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
         edtUsuario = findViewById(R.id.login_edtUser);
         edtSenha = findViewById(R.id.login_edtSenha);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void acoesViews() {
+
         btnConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,11 +46,19 @@ public class MainActivity extends AppCompatActivity {
                     if (!usuarioDao.loginUsuario(edtUsuario.getText().toString().trim(), edtSenha.getText().toString().trim())){
                         Toast.makeText(v.getContext(), "Usuário e/ou senha inválidos", Toast.LENGTH_LONG).show();
                     } else {
-                        ;
+                        Toast.makeText(v.getContext(), "Logado com sucesso", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        txtCadastro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itCadastro = new Intent(MainActivity.this, CadastroActivity.class);
+                startActivity(itCadastro);
             }
         });
     }

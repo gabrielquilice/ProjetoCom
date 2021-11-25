@@ -7,6 +7,7 @@ public class Usuario {
     private String rg;
     private String usuario;
     private String senha;
+    private String conectado;
     private String ativo;
 
     public int getIdUsuario() {
@@ -55,6 +56,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getConectado() {
+        return conectado;
+    }
+
+    public void setConectado(String conectado) {
+        this.conectado = conectado;
     }
 
     public String getAtivo() {
