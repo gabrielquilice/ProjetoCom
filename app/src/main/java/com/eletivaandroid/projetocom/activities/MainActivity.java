@@ -6,6 +6,12 @@ import android.os.Bundle;
 
 import com.eletivaandroid.projetocom.R;
 
+/*PC da Xuxa
+
+
+
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

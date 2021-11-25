@@ -11,37 +11,36 @@ import com.eletivaandroid.projetocom.helper.DbHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TarefaDao {
+public class LoginDao {
     private Context context;
     private SQLiteDatabase writeIn;
     private SQLiteDatabase readOn;
 
-    public TarefaDao(Context context) {
+    public LoginDao(Context context) {
         this.context = context;
         DbHelper dbHelper = new DbHelper(context);
         writeIn = dbHelper.getWritableDatabase();
         readOn = dbHelper.getReadableDatabase();
     }
 
-    public boolean salvar(Tarefa tarefa) {
-
-        try {
-            ContentValues cv = new ContentValues();
-            cv.put("titulo", tarefa.getTitulo());
-            cv.put("fgFinalizada", "N");
-
-            writeIn.insert(DbHelper.TABELA_USUARIOS, null, cv);
-        } catch (Exception e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        return true;
-    }
+//    public boolean salvar(Tarefa tarefa) {
+//
+//        try {
+//            ContentValues cv = new ContentValues();
+//            cv.put("titulo", tarefa.getTitulo());
+//            cv.put("fgFinalizada", "N");
+//
+//            writeIn.insert(DbHelper.TABELA_USUARIOS, null, cv);
+//        } catch (Exception e) {
+//            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
     public List<Tarefa> getListaTarefas(){
         List<Tarefa> listaTarefas = new ArrayList<>();
-
         String sql = "SELECT * FROM " + DbHelper.TABELA_USUARIOS + " ORDER BY id DESC;";
         Cursor cursor = readOn.rawQuery(sql, null);
 
