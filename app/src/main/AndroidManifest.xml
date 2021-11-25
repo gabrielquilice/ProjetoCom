@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetoCom">
         <activity
+            android:name=".activities.CadastroActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>

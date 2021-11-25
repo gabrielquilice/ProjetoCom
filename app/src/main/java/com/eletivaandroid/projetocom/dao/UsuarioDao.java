@@ -2,67 +2,36 @@ package com.eletivaandroid.projetocom.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.eletivaandroid.projetocom.helper.DbHelper;
+import com.eletivaandroid.projetocom.models.Usuario;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class LoginDao {
+public class UsuarioDao {
     private Context context;
     private SQLiteDatabase writeIn;
     private SQLiteDatabase readOn;
 
-    public LoginDao(Context context) {
+    public UsuarioDao(Context context) {
         this.context = context;
         DbHelper dbHelper = new DbHelper(context);
         writeIn = dbHelper.getWritableDatabase();
         readOn = dbHelper.getReadableDatabase();
     }
 
-//    public boolean salvar(Tarefa tarefa) {
-//
-//        try {
-//            ContentValues cv = new ContentValues();
-//            cv.put("titulo", tarefa.getTitulo());
-//            cv.put("fgFinalizada", "N");
-//
-//            writeIn.insert(DbHelper.TABELA_USUARIOS, null, cv);
-//        } catch (Exception e) {
-//            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    public boolean salvar(Usuario usuario) {
 
-    public List<Tarefa> getListaTarefas(){
-        List<Tarefa> listaTarefas = new ArrayList<>();
-        String sql = "SELECT * FROM " + DbHelper.TABELA_USUARIO + " ORDER BY id DESC;";
-        Cursor cursor = readOn.rawQuery(sql, null);
-
-        while(cursor.moveToNext()) {
-            Tarefa tarefa = new Tarefa();
-            tarefa.setId( cursor.getLong(cursor.getColumnIndex("id")) );
-            tarefa.setTitulo( cursor.getString( cursor.getColumnIndex("titulo")) );
-            tarefa.setFgFinalizada( cursor.getString( cursor.getColumnIndex("fgFinalizada")) );
-
-            listaTarefas.add(tarefa);
-        }
-        return listaTarefas;
-    }
-
-    public boolean alterar(Tarefa tarefa) {
         try {
             ContentValues cv = new ContentValues();
-            cv.put("titulo", tarefa.getTitulo());
+            cv.put("nome", usuario.getNome());
+            cv.put("cpf", usuario.getCpf());
+            cv.put("rg", usuario.getRg());
+            cv.put("usuario", usuario.getSenha().toUpperCase());
+            cv.put("senha", usuario.getSenha().toUpperCase());
+            cv.put("ativo", "S");
 
-            String[] args = { tarefa.getId().toString() };
-
-            writeIn.update(DbHelper.TABELA_USUARIO, cv, "id = ?", args);
+            writeIn.insert(DbHelper.TABELA_USUARIO, null, cv);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
@@ -71,28 +40,52 @@ public class LoginDao {
         return true;
     }
 
-    public boolean alterarStatus(Tarefa tarefa){
+    public boolean alterar(Usuario usuario) {
         try {
             ContentValues cv = new ContentValues();
-            cv.put("fgFinalizada", tarefa.getFgFinalizada());
+            cv.put("nome", usuario.getNome());
+            cv.put("cpf", usuario.getCpf());
+            cv.put("rg", usuario.getRg());
+            cv.put("usuario", usuario.getSenha());
+            cv.put("senha", usuario.getSenha());
 
-            String[] args = { tarefa.getId().toString() };
+            String[] args = { String.valueOf(usuario.getIdUsuario()) };
 
-            writeIn.update(DbHelper.TABELA_USUARIO, cv, "id = ?", args);
+            writeIn.update(DbHelper.TABELA_USUARIO, cv, "id_usuario = ?", args);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
         }
 
+        return true;
+    }
+
+    public boolean alterarStatus(int idUsuario, String ativo){
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("ativo", ativo);
+
+            String[] args = { String.valueOf(idUsuario) };
+
+            writeIn.update(DbHelper.TABELA_USUARIO, cv, "id_usuario = ?", args);
+        } catch (Exception e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         return true;
     }
 
-    public boolean deletar(Tarefa tarefa) {
+    public boolean loginUsuario(String usuario, String senha) {
         try {
-            String[] args = { tarefa.getId().toString() };
 
-            writeIn.delete(DbHelper.TABELA_USUARIO, "id = ?", args);
+            String[] args = { usuario.toUpperCase(), senha.toUpperCase() };
+
+            String sql = "SELECT * FROM " + DbHelper.TABELA_USUARIO + " WHERE usuario = ? AND senha = ?";
+
+            int isUsuario = readOn.rawQuery(sql, args).getCount();
+
+            if (isUsuario == 0) return false;
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
