@@ -28,7 +28,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 " nome TEXT NOT NULL," +
                 " usuario TEXT NOT NULL," +
                 " senha TEXT NOT NULL," +
-                " fgFinalizada CHAR(1) NOT NULL); ";
+                " ativo CHAR(1) NOT NULL); ";
 
         String sqlTableVoos = "CREATE TABLE IF NOT EXISTS " + TABELA_VOOS +
                 " (id_voo INTEGER PRIMARY KEY AUTOINCREMENT," +
